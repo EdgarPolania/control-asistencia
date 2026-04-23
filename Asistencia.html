@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Control de Asistencia</title>
+
+<style>
+
+body {font-family: Arial;background: #f4f6f9;display: flex;justify-content: center;}
+
+.container {width: 400px;background: white;padding: 20px;margin-top: 40px;border-radius: 10px;}
+
+h2 {color: #1e3a5f;}
+
+select, button {width: 100%;padding: 10px;margin-top: 10px;}
+
+.btn-entrada {background: green;color: white;border: none;}
+
+.btn-salida {background: red;color: white;border: none;}
+
+.historial {margin-top: 20px;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Registro de Asistencia</h2>
+
+    <label>Empleado</label>
+
+    <select id="empleado">
+
+        <option>Juan Pérez</option>
+        <option>Maria Lopez</option>
+        <option>Carlos Gomez</option>
+
+    </select>
+
+    <button class="btn-entrada" onclick="entrada()">Registrar Entrada</button>
+
+    <button class="btn-salida" onclick="salida()">Registrar Salida</button>
+
+    <div class="historial">
+
+        <h3>Historial</h3>
+
+        <ul id="lista"></ul>
+
+    </div>
+
+</div>
+
+<script>
+
+let registros = [];
+
+let registroActual = null;
+
+function obtenerFecha(){return new Date().toLocaleDateString();}
+
+function obtenerHora(){return new Date().toLocaleTimeString();}
+
+function entrada(){let nombre = document.getElementById("empleado").value;
+    
+    if(registroActual && registroActual.salida === null){alert("Primero debes registrar la salida");return;}
+
+    registroActual = {empleado: nombre,fecha: obtenerFecha(),entrada: obtenerHora(),salida: null};
+
+    registros.push(registroActual);mostrar();}
+
+function salida(){if(!registroActual){alert("Primero registra la entrada");return;}
+
+    if(registroActual.salida !== null){alert("Ya registraste salida");return;}
+
+    registroActual.salida = obtenerHora();mostrar();}
+
+function mostrar(){let lista = document.getElementById("lista");lista.innerHTML = "";
+
+    registros.forEach(r => {let li = document.createElement("li");
+
+        li.innerHTML = `
+        <strong>${r.empleado}</strong> | 📅 ${r.fecha} <br>
+        Entrada: ${r.entrada} <br>
+        Salida: ${r.salida ? r.salida : "No registrada"}
+        `;
+
+        lista.appendChild(li);
+    });
+}
+</script>
+
+</body>
+</html>
