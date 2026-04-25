@@ -1,28 +1,22 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
-<title>Control de Asistencia</title>
+<title>Sistema de Asistencia</title>
 
 <style>
 
-body {font-family: Arial;background: #f4f6f9;display: flex;justify-content: center;}
+body { font-family: Arial; background: #f4f6f9; text-align: center; }
 
-.container {width: 400px;background: white;padding: 20px;margin-top: 40px;border-radius: 10px;}
+.container {width: 350px;margin: 40px auto;background: white;padding: 20px;border-radius: 10px;}
 
-h2 {color: #1e3a5f;}
+button {padding: 10px;margin: 5px;width: 100%;}
 
-select, button {width: 100%;padding: 10px;margin-top: 10px;}
+.hidden { display: none; }
 
-.btn-entrada {background: green;color: white;border: none;}
+table {width: 100%;border-collapse: collapse;}
 
-.btn-salida {background: red;color: white;border: none;}
-
-.historial {margin-top: 20px;}
+td, th {border: 1px solid #ccc;padding: 5px;}
 
 </style>
 
@@ -30,71 +24,119 @@ select, button {width: 100%;padding: 10px;margin-top: 10px;}
 
 <body>
 
-<div class="container">
-
-    <h2>Registro de Asistencia</h2>
-
-    <label>Empleado</label>
-
-    <select id="empleado">
-
-        <option>Juan Pérez</option>
-        <option>Maria Lopez</option>
-        <option>Carlos Gomez</option>
-
-    </select>
-
-    <button class="btn-entrada" onclick="entrada()">Registrar Entrada</button>
-
-    <button class="btn-salida" onclick="salida()">Registrar Salida</button>
-
-    <div class="historial">
-
-        <h3>Historial</h3>
-
-        <ul id="lista"></ul>
-
-    </div>
+<div class="container" id="login">
+    <h2>Login</h2>
+    <input type="text" id="user" placeholder="Usuario"><br><br>
+    <input type="password" id="pass" placeholder="Contraseña"><br><br>
+    <button onclick="login()">Ingresar</button>
 
 </div>
 
+<div class="container hidden" id="asistencia">
+    <h2>Registro de Asistencia</h2>
+
+    <select id="empleado">
+        <option>Alejandro Magno</option>
+        <option>Maria Gonzales</option>
+        <option>Eduardo Guevara</option>
+    </select>
+
+    <button onclick="entrada()">Registrar Entrada</button>
+    <button onclick="salida()">Registrar Salida</button>
+
+    <button onclick="irReportes()">Ver Reportes</button>
+
+    <ul id="historial"></ul>
+</div>
+
+<div class="container hidden" id="reportes">
+    <h2>Reportes</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Fecha</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
+
+    <button onclick="volver()">Volver</button>
+</div>
+
 <script>
-
 let registros = [];
+let actual = null;
+let diaActual = new Date();
+diaActual.setDate(diaActual.getDate() - 1);
 
-let registroActual = null;
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
 
-function obtenerFecha(){return new Date().toLocaleDateString();}
+    if(u && p){
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("asistencia").classList.remove("hidden");} 
+        else {alert("Ingrese datos");}}
 
-function obtenerHora(){return new Date().toLocaleTimeString();}
+function entrada(){
+    let nombre = document.getElementById("empleado").value;
 
-function entrada(){let nombre = document.getElementById("empleado").value;
-    
-    if(registroActual && registroActual.salida === null){alert("Primero debes registrar la salida");return;}
+    if(actual && actual.salida === null){alert("Primero registra salida");return;}
 
-    registroActual = {empleado: nombre,fecha: obtenerFecha(),entrada: obtenerHora(),salida: null};
+    diaActual.setDate(diaActual.getDate() + 1);
 
-    registros.push(registroActual);mostrar();}
+    actual = {empleado: nombre,fecha: diaActual.toLocaleDateString(),
+        entrada: new Date().toLocaleTimeString(),salida: null};
 
-function salida(){if(!registroActual){alert("Primero registra la entrada");return;}
+    registros.push(actual);
+    mostrarHistorial();}
 
-    if(registroActual.salida !== null){alert("Ya registraste salida");return;}
+function salida(){
+    if(!actual){
+        alert("Primero registra entrada");
+        return;}
 
-    registroActual.salida = obtenerHora();mostrar();}
+    if(actual.salida){
+        alert("Ya registraste salida");
+        return;}
 
-function mostrar(){let lista = document.getElementById("lista");lista.innerHTML = "";
+    actual.salida = new Date().toLocaleTimeString();
+    mostrarHistorial();}
 
-    registros.forEach(r => {let li = document.createElement("li");
+function mostrarHistorial(){let lista = document.getElementById("historial");lista.innerHTML = "";
 
-        li.innerHTML = `
-        <strong>${r.empleado}</strong> | 📅 ${r.fecha} <br>
-        Entrada: ${r.entrada} <br>
-        Salida: ${r.salida ? r.salida : "No registrada"}
+    registros.forEach(r=>{let li = document.createElement("li");
+        li.innerText = r.empleado + " | " + r.fecha + 
+        " | E: " + r.entrada + " | S: " + (r.salida || "-");
+        lista.appendChild(li);});}
+
+function irReportes(){
+    document.getElementById("asistencia").classList.add("hidden");
+    document.getElementById("reportes").classList.remove("hidden");
+    cargarTabla();}
+
+function volver(){
+    document.getElementById("reportes").classList.add("hidden");
+    document.getElementById("asistencia").classList.remove("hidden");}
+
+function cargarTabla(){
+    let tabla = document.getElementById("tabla");
+    tabla.innerHTML = "";
+
+    registros.forEach(r=>{
+        let fila = `
+        <tr>
+            <td>${r.empleado}</td>
+            <td>${r.fecha}</td>
+            <td>${r.entrada}</td>
+            <td>${r.salida || "-"}</td>
+        </tr>
         `;
-
-        lista.appendChild(li);
-    });
-}
+        tabla.innerHTML += fila;});}
 </script>
 
 </body>
