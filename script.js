@@ -53,7 +53,7 @@ function entrada(){let nombre = document.getElementById("empleado").value;
         return;}
 
     actual = {empleado: nombre,fecha: hoy,
-        entrada: new Date().toLocaleTimeString(),
+        entrada: new Date().toLocaleTimeString('es-CO', {hour12:false}),
         salida: null};
 
     registros.push(actual);
@@ -64,15 +64,20 @@ function salida(){if(!actual || actual.salida){alert("Error");
 
         return;}
 
-    actual.salida = new Date().toLocaleTimeString();
+    actual.salida = new Date().toLocaleTimeString('es-CO', {hour12:false});
 
     guardar("registros", registros);}
 
 function calcularHoras(e, s){
     if(!e || !s) return 0;
-    let inicio = new Date("1970-01-01 " + e);
-    let fin = new Date("1970-01-01 " + s);
-    if(fin < inicio){fin.setDate(fin.getDate() + 1);}
+    let entrada = e.split(":");
+    let salida = s.split(":");
+    let inicio = new Date();
+    inicio.setHours(entrada[0], entrada[1], entrada[2]);
+    let fin = new Date();
+    fin.setHours(salida[0], salida[1], salida[2]);
+    if(fin < inicio){
+        fin.setDate(fin.getDate() + 1);}
     return (fin - inicio) / 3600000;}
 
 function verReportes(){document.getElementById("panel").classList.add("hidden");
