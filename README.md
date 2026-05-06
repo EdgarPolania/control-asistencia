@@ -1,5 +1,22 @@
-Este proyecto nace a partir de la necesidad que tienen muchas empresas de llevar un control organizado de la asistencia de sus empleados. En muchos casos, estos procesos se realizan de forma manual, lo que puede generar errores, pérdida de información o dificultades para hacer seguimiento.
+Sistema Web de Control de Asistencia de Empleados
 
-Por esta razón, se desarrolló una aplicación web sencilla que permite registrar la entrada y salida de los empleados, así como visualizar un historial de asistencia. La idea principal es mostrar cómo una solución digital puede facilitar este proceso y hacerlo más claro y eficiente.
+Este proyecto fue desarrollado como parte del proceso académico de la Tecnología en Desarrollo de Software de la UNAD. La aplicación surge a partir de la necesidad identificada en pequeñas empresas de contar con una herramienta sencilla para registrar y organizar la asistencia de sus empleados.
 
-Actualmente, el proyecto se encuentra en desarrollo y aún requiere ajustes y mejoras para pulir su funcionamiento y alcance. Estas mejoras se continuarán trabajando a lo largo del curso, con el objetivo de fortalecer la solución y llevarla a un nivel más completo.
+Actualmente, muchas organizaciones realizan este proceso de forma manual, lo que puede generar errores, pérdida de información y dificultades para el control de horarios laborales. Debido a ello, se desarrolló una aplicación web que permite registrar entradas y salidas de empleados, consultar reportes de asistencia y calcular automáticamente las horas trabajadas.
+
+El sistema fue diseñado utilizando HTML, CSS y JavaScript, empleando almacenamiento local mediante LocalStorage, lo que permite utilizarlo desde un único computador sin necesidad de servidores o bases de datos externas.
+
+Entre las funcionalidades implementadas se encuentran:
+
+Inicio de sesión para administrador.
+Registro dinámico de empleados.
+Registro de entradas y salidas.
+Validación de registros duplicados.
+Cálculo automático de horas trabajadas.
+Generación de reportes.
+Exportación de reportes en formato Excel.
+Interfaz gráfica moderna y adaptable.
+
+El proyecto se encuentra actualmente en proceso de mejora y fortalecimiento. Se espera continuar ampliando sus funcionalidades durante el desarrollo del curso, incorporando nuevas características y mejoras orientadas a una futura implementación en un entorno real.
+
+Este sistema está siendo desarrollado tomando como referencia las necesidades identificadas en la empresa Agroindustria Empresarial Jamaica S.A.S., la cual manifestó interés en la futura implementación de la solución para pruebas y validación operativa.
