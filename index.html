@@ -73,22 +73,26 @@
 
     <select id="filtroEmpleado" onchange="verReportes()"></select>
 
+    <div class="tabla-responsive">
+
     <table>
 
-        <thead>
-            <tr>
-                <th>Empleado</th>
-                <th>Fecha</th>
-                <th>Entrada</th>
-                <th>Salida</th>
-                <th>Horas</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
+    <thead>
+      <tr>
+        <th>Empleado</th>
+           <th>Fecha</th>
+            <th>Entrada</th>
+          <th>Salida</th>
+         <th>Horas</th>
+        <th>Acción</th>
+        </tr>
+   </thead>
 
         <tbody id="tabla"></tbody>
 
     </table>
+    
+</div>
 
     <h2 id="totalHoras"></h2>
     <button class="btn-success" onclick="exportarExcel()">

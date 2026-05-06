@@ -22,6 +22,7 @@ button{width: 100%;padding: 8px;margin-top: 5px;border: none;border-radius: 5px;
 .hidden{display: none;}
 
 table{width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 12px;}
+.tabla-responsive{width: 100%;overflow-x: auto;}
 
 td, th{border: 1px solid #ddd;padding: 5px;text-align: center;white-space: nowrap;}
 
